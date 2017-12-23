@@ -5,16 +5,18 @@ import { fetchPosts } from '../actions';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 class PostsList extends Component{
-	//automatically called by React
 	componentDidMount(){
 		this.props.fetchPosts();
 	}
 
+	//display list of individual posts
 	renderPosts(){
 		return _.map(this.props.posts, post => {
 			return (
 				<li className="list-group-item" key={post.id}> 
-					{post.title}
+					<Link to={`/posts/${post.id}`}>
+						{post.title}
+					</Link>
 				</li>
 			);
 		});

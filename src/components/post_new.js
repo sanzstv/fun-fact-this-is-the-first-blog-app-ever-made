@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
+import { Link } from 'react-router-dom';
+import {connect } from 'react-redux';
+import { createPost } from '../actions'
 class PostNew extends Component{
 
+	//fields for submitting a blog post: Title, Categories, Content/Body
 	renderField(field){
 		const className = `form-group ${field.meta.touched && field.meta.error ? 'has-danger' : ''}`;
 		return(
@@ -16,10 +20,15 @@ class PostNew extends Component{
 		);
 	}
 
+	//call createPost action creator to submit post to redux blog API
+	//and navigate back to root path
 	onSubmit(values){
-		console.log(values);
-	}
 
+		this.props.createPost(values, () => {
+			this.props.history.push('/');
+		});
+	}
+	//individual fields and button to submit or cancel post
 	render(){
 		const { handleSubmit } = this.props;
 		return(
@@ -36,6 +45,7 @@ class PostNew extends Component{
 				component={this.renderField} />
 				<button type = "submit" className="btn btn-primary">
 				Submit</button>
+				<Link to= "/" className= "btn btn-danger">Cancel</Link>
 			</form>
 			</div>
 		);
@@ -60,4 +70,6 @@ function validate(values){
 export default reduxForm({
 	validate: validate,
 	form: 'PostNewForm'
-})(PostNew);
+})(
+	connect(null, {createPost})(PostNew)
+);
