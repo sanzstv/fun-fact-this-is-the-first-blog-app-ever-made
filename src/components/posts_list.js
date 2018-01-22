@@ -11,6 +11,8 @@ class PostsList extends Component{
 
 	//display list of individual posts
 	renderPosts(){
+		console.log(this.props.posts);
+		//GET THAT KEY/ID
 		return _.map(this.props.posts, post => {
 			return (
 				<li className="list-group-item" key={post.id}> 
